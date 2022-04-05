@@ -1,0 +1,30 @@
+{
+  "name": "expense-tracker",
+  "version": "1.0.0",
+  "description": "Expense Tacker App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhavesh029/Expense-tracker.git"
+  },
+  "author": "bhavesh chouhan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhavesh029/Expense-tracker/issues"
+  },
+  "homepage": "https://github.com/bhavesh029/Expense-tracker#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "pug": "^3.0.2",
+    "sequelize": "^6.18.0"
+  }
+}
