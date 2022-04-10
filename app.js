@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 
 const sequelize = require('./utils/database');
 const User = require('./Models/users');
+const Expense = require('./Models/expense');
 
 const userRoutes = require('./Routes/user');
 
@@ -17,6 +18,9 @@ app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded());
 
 app.use('/user',userRoutes);
+
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 sequelize.sync()
     .then(() => {
