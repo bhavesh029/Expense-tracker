@@ -10,5 +10,8 @@ router.post('/signup',userController.signUp);
 router.post('/login', userController.login);
 
 router.post('/addexpense', authenticateMiddleware.authenticate, expenseController.addExpense);
+router.get('/getexpenses', authenticateMiddleware.authenticate, expenseController.getexpenses);
+router.delete('/deleteexpense/:expenseid', authenticateMiddleware.authenticate, expenseController.deleteexpense);
+
 
 module.exports = router;
