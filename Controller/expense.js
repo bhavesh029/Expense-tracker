@@ -17,11 +17,11 @@ exports.addExpense = (req, res) => {
     })
 }
 
-exports.getexpenses = (req, res) => {
+exports.getexpenses = (async (req, res) => {
     const page = req.query.page || 1;
     let totalItems = 0;
     const userId = req.user.id;
-    const expcount = Expense.count({where:{UserId: userId}});
+    const expcount = await Expense.count({where:{UserId: userId}});
     const hasnextpage = ITEMS_PER_PAGE * page<expcount;
     const haspreviouspage = page>1;
     const nextpage = Number(page) +1;
@@ -40,7 +40,7 @@ exports.getexpenses = (req, res) => {
     }).catch(err => {
         return res.status(402).json({error:err, success:false});
     })
-}
+})
 
 exports.deleteexpense = (req, res) => {
     const expenseid = req.params.expenseid;
