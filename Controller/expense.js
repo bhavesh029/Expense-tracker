@@ -1,5 +1,6 @@
 const Expense = require('../Models/expense');
 
+const ITEMS_PER_PAGE = 2;
 exports.addExpense = (req, res) => {
     const expenseAmount = req.body.expenseAmount;
     const description = req.body.description;
@@ -17,8 +18,25 @@ exports.addExpense = (req, res) => {
 }
 
 exports.getexpenses = (req, res) => {
-    req.user.getExpenses().then(expense => {
-        return res.status(200).json({expense, success:true});
+    const page = req.query.page || 1;
+    let totalItems = 0;
+    const userId = req.user.id;
+    const expcount = Expense.count({where:{UserId: userId}});
+    const hasnextpage = ITEMS_PER_PAGE * page<expcount;
+    const haspreviouspage = page>1;
+    const nextpage = Number(page) +1;
+    const previouspage = Number(page) -1;
+    const lastpage = Math.ceil(expcount/ITEMS_PER_PAGE);
+    let obj ={
+        currentpage: Number(req.query.page),
+        hasnextpage: hasnextpage,
+        haspreviouspage: haspreviouspage,
+        nextpage: nextpage,
+        previouspage: previouspage,
+        lastpage: lastpage
+    }
+    req.user.getExpenses({offset:(page-1)*ITEMS_PER_PAGE, limit:ITEMS_PER_PAGE}).then(expense => {
+        return res.status(200).json({expense, success:true,obj});
     }).catch(err => {
         return res.status(402).json({error:err, success:false});
     })

@@ -29,6 +29,7 @@
     "nodemon": "^2.0.15",
     "pug": "^3.0.2",
     "razorpay": "^2.8.1",
-    "sequelize": "^6.18.0"
+    "sequelize": "^6.18.0",
+    "uuid": "^8.3.2"
   }
 }

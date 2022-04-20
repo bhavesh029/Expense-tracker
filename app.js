@@ -7,6 +7,7 @@ const sequelize = require('./utils/database');
 const User = require('./Models/users');
 const Expense = require('./Models/expense');
 const Order = require('./Models/order');
+const forgetPassword = require('./Models/forgotpassword');
 
 const userRoutes = require('./Routes/user');
 const purchaseRoutes = require('./Routes/purchase');
