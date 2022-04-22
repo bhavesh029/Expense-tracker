@@ -19,7 +19,6 @@ exports.addExpense = (req, res) => {
 
 exports.getexpenses = (async (req, res) => {
     const page = req.query.page || 1;
-    let totalItems = 0;
     const userId = req.user.id;
     const expcount = await Expense.count({where:{UserId: userId}});
     const hasnextpage = ITEMS_PER_PAGE * page<expcount;

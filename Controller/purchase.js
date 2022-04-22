@@ -5,7 +5,7 @@ dotenv.config();
 exports.purchasePreminum = async (req, res) => {
     try{
         var rzp = new Razorpay({
-            Key_id: process.env.Razorpay_id,
+            key_id: process.env.Razorpay_id,
             key_secret: process.env.RazorpaySecretKey
         })
         var details = {

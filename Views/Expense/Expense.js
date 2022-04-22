@@ -29,6 +29,7 @@ window.addEventListener('DOMContentLoaded', (e)=> {
     const token = localStorage.getItem('token');
     const pagination = document.getElementById('pagination');
     pagination.innerHTML = "";
+    const reqpage = e.target.id;
     axios.get(`http://localhost:3000/user/getexpenses/?page=1`, { headers: {"Authorization" : token} }).then(response => {
         const pages = response.data.obj;
         if(pages.currentpage != 1 && pages.previouspage != 1){
@@ -103,6 +104,23 @@ function deleteExpense(e, expenseid){
 function removeExpensefromUI(expenseid){
     const expenseElemId = `expense-${expenseid}`;
     document.getElementById(expenseElemId).remove();
+}
+
+function download(){
+    axios.get('http://localhost:3000/user/download', {headers:{"Authorization":token}})
+    .then((response) => {
+        if(response.status === 201){
+            var a = document.createElement('a');
+            a.href = response.data.fileUrl;
+            a.download = 'myexpense.csv';
+            a.click();
+        } else{
+            throw new Error(response.data.message);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
 
 document.getElementById('rzp-btn').onclick = async function (e) {
