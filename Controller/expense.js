@@ -1,6 +1,41 @@
 const Expense = require('../Models/expense');
+const AWS = require('aws-sdk');
+const dotenv = require('dotenv');
+dotenv.config();
+const ITEMS_PER_PAGE = 10;
 
-const ITEMS_PER_PAGE = 2;
+function uploadtoS3(data, filename){
+    let s3bucket = new AWS.S3({
+        accessKeyId:process.env.AWS_ACCESS_KEY,
+        secretAccessKey:process.env.AWS_SECRET_KEY
+    });
+
+    s3bucket.createBucket(() => {
+        var params = {
+            Bucket:'expensetracker029',
+            Key:filename,
+            Body:data
+        }
+        s3bucket.upload(params, (err, s3response) => {
+            if(err){
+                console.log('Something went wrong',err);
+            }else{
+                console.log('Success',s3response);
+            }
+        })
+    })
+}
+
+
+exports.download = async (req,res) => {
+    const expenses =  await req.user.getExpenses();
+    //console.log(expenses);
+    const SringifyExpense = JSON.stringify(expenses);
+    const filename = 'Expense.txt';
+    const fileURL = uploadtoS3(SringifyExpense, filename);
+    res.status(200).json({fileURL, success:true});
+}
+
 exports.addExpense = (req, res) => {
     const expenseAmount = req.body.expenseAmount;
     const description = req.body.description;

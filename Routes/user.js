@@ -12,6 +12,6 @@ router.post('/login', userController.login);
 router.post('/addexpense', authenticateMiddleware.authenticate, expenseController.addExpense);
 router.get('/getexpenses', authenticateMiddleware.authenticate, expenseController.getexpenses);
 router.delete('/deleteexpense/:expenseid', authenticateMiddleware.authenticate, expenseController.deleteexpense);
-
+router.get('/download', authenticateMiddleware.authenticate, expenseController.download);
 
 module.exports = router;

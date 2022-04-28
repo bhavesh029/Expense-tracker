@@ -27,47 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('DOMContentLoaded', (e)=> {
     const token = localStorage.getItem('token');
-    const pagination = document.getElementById('pagination');
-    pagination.innerHTML = "";
-    const reqpage = e.target.id;
-    axios.get(`http://localhost:3000/user/getexpenses/?page=1`, { headers: {"Authorization" : token} }).then(response => {
-        const pages = response.data.obj;
-        if(pages.currentpage != 1 && pages.previouspage != 1){
-            const newpage = document.createElement("a");
-            newpage.setAttribute('id','1');
-            newpage.setAttribute('class','page');
-            newpage.innerText = "1";
-            pagination.appendChild(newpage);
-        }
-        if(pages.haspreviouspage){
-            const newpage2 = document.createElement('a');
-            newpage2.setAttribute('class','page');
-            newpage2.setAttribute("id",`${pages.previouspage}`);
-            newpage2.innerText = `${pages.previouspage}`;
-            pagination.appendChild(newpage2);
-        }
-        const newpage1 = document.createElement('a');
-        newpage1.setAttribute('id',`${pages.currentpage}`);
-        newpage1.setAttribute('class','page');
-        newpage1.innerText = `${pages.currentpage}`;
-        pagination.appendChild(newpage1);
-
-        if(pages.hasnextpage){
-            const newpage3 = document.createElement('a');
-            newpage3.setAttribute('class','page');
-            newpage3.setAttribute('id',`${pages.nextpage}`);
-            newpage3.innerText = `${pages.nextpage}`;
-            pagination.appendChild(newpage3);
-        }
-        if(pages.lastpage !== pages.currentpage &&
-            pages.nextpage !== pages.lastpage){
-                const newpage4 = document.createElement('a');
-                newpage4.setAttribute('class','page');
-                newpage4.setAttribute('id',`${pages.lastpage}`);
-                newpage4.innerText = `${pages.lastpage}`;
-                pagination.appendChild(newpage4);
-            }
-        
+    axios.get(`http://localhost:3000/user/getexpenses`, { headers: {"Authorization" : token} }).then(response => {
         if(response.status === 200){
             response.data.expense.forEach(expense => {
                 addexpense(expense);
@@ -75,8 +35,61 @@ window.addEventListener('DOMContentLoaded', (e)=> {
         } else {
             throw new Error();
         }
+        const pagination = document.getElementById('pagination');
+        pagination.addEventListener('click', (e) => {
+        if(e.target.className == 'page'){
+        const reqpage = e.target.id;
+        axios.get(`http://localhost:3000/user/getexpenses?page=${reqpage}`, {headers:{"Authorization":token}}).then(data => {
+            const pagination = document.getElementById('pagination');
+            const pages = response.data.obj;
+            pagination.innerHTML="";
+
+            if(pages.currentpage != 1 && pages.previouspage != 1){
+                const newpage = document.createElement("a");
+                newpage.setAttribute('id','1');
+                newpage.setAttribute('class','page');
+                newpage.innerText = "1";
+                pagination.appendChild(newpage);
+            }
+            if(pages.haspreviouspage){
+                const newpage2 = document.createElement('a');
+                newpage2.setAttribute('class','page');
+                newpage2.setAttribute("id",`${pages.previouspage}`);
+                newpage2.innerText = `${pages.previouspage}`;
+                pagination.appendChild(newpage2);
+            }
+            const newpage1 = document.createElement('a');
+            newpage1.setAttribute('id',`${pages.currentpage}`);
+            newpage1.setAttribute('class','page');
+            newpage1.innerText = `${pages.currentpage}`;
+            pagination.appendChild(newpage1);
+    
+            if(pages.hasnextpage){
+                const newpage3 = document.createElement('a');
+                newpage3.setAttribute('class','page');
+                newpage3.setAttribute('id',`${pages.nextpage}`);
+                newpage3.innerText = `${pages.nextpage}`;
+                pagination.appendChild(newpage3);
+            }
+            if(pages.lastpage !== pages.currentpage &&
+                pages.nextpage !== pages.lastpage){
+                    const newpage4 = document.createElement('a');
+                    newpage4.setAttribute('class','page');
+                    newpage4.setAttribute('id',`${pages.lastpage}`);
+                    newpage4.innerText = `${pages.lastpage}`;
+                    pagination.appendChild(newpage4);
+            }
+
+            data.data.expense.forEach(expense => {
+                addexpense(expense);
+            })
+        })
+    }
+})
     })
 });
+
+
 
 function addexpense(expense){
     const parentElement = document.getElementById('record');
@@ -166,3 +179,6 @@ document.getElementById('rzp-btn').onclick = async function (e) {
   alert(response.error.metadata.payment_id);
  });
 }
+
+// 
+        
