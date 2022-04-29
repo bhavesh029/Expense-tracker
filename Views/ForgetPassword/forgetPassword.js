@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             email:email
         }
         console.log(userDetails);
-        axios.post('http://localhost:3000/password/forgetpassword', userDetails).then(response => {
+        axios.post('http://54.234.87.107:3000/password/forgetpassword', userDetails).then(response => {
         if(response.status === 200){
             document.body.innerHTML+= '<div style="color:red;">Mail Successfully Sent </div>'
         }else{

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             password: password
         }
 
-        axios.post('http://localhost:3000/user/login', obj)
+        axios.post('http://54.234.87.107:3000/user/login', obj)
             .then(res => {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem('userDetails', JSON.stringify(res.data.user));

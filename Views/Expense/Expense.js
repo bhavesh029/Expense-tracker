@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             description: description,
             category: category
         }
-        axios.post('http://localhost:3000/user/addexpense', obj, { headers: {"Authorization" : token} })
+        axios.post('http://54.234.87.107:3000/user/addexpense', obj, { headers: {"Authorization" : token} })
             .then(res => {
                 console.log(res);
                 alert('Added');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('DOMContentLoaded', (e)=> {
     const token = localStorage.getItem('token');
-    axios.get(`http://localhost:3000/user/getexpenses`, { headers: {"Authorization" : token} }).then(response => {
+    axios.get(`http://54.234.87.107:3000/user/getexpenses`, { headers: {"Authorization" : token} }).then(response => {
         if(response.status === 200){
             response.data.expense.forEach(expense => {
                 addexpense(expense);
@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', (e)=> {
         pagination.addEventListener('click', (e) => {
         if(e.target.className == 'page'){
         const reqpage = e.target.id;
-        axios.get(`http://localhost:3000/user/getexpenses?page=${reqpage}`, {headers:{"Authorization":token}}).then(data => {
+        axios.get(`http://54.234.87.107:3000/user/getexpenses?page=${reqpage}`, {headers:{"Authorization":token}}).then(data => {
             const pagination = document.getElementById('pagination');
             const pages = response.data.obj;
             pagination.innerHTML="";
@@ -103,7 +103,7 @@ function addexpense(expense){
 
 function deleteExpense(e, expenseid){
     //const token = localStorage.getItem('token');
-    axios.delete(`http://localhost:3000/user/deleteexpense/${expenseid}`, {headers:{"Authorization":token}}).then(response => {
+    axios.delete(`http://54.234.87.107:3000/user/deleteexpense/${expenseid}`, {headers:{"Authorization":token}}).then(response => {
         if(response.status === 204){
             removeExpensefromUI(expenseid);
         }else{
@@ -120,7 +120,7 @@ function removeExpensefromUI(expenseid){
 }
 
 function download(){
-    axios.get('http://localhost:3000/user/download', {headers:{"Authorization":token}})
+    axios.get('http://54.234.87.107:3000/user/download', {headers:{"Authorization":token}})
     .then((response) => {
         if(response.status === 200){
             var a = document.createElement('a');
@@ -135,7 +135,7 @@ function download(){
 }
 
 document.getElementById('rzp-btn').onclick = async function (e) {
-    const response  = await axios.get('http://localhost:3000/purchase/premiummembership', { headers: {"Authorization" : token} });
+    const response  = await axios.get('http://54.234.87.107:3000/purchase/premiummembership', { headers: {"Authorization" : token} });
     console.log(response);
     var options =
     {
@@ -153,7 +153,7 @@ document.getElementById('rzp-btn').onclick = async function (e) {
      // This handler function will handle the success payment
      "handler": function (response) {
          console.log(response);
-         axios.post('http://localhost:3000/purchase/updatetransactionstatus',{
+         axios.post('http://54.234.87.107:3000/purchase/updatetransactionstatus',{
              order_id: options.order_id,
              payment_id: response.razorpay_payment_id,
          }, { headers: {"Authorization" : token} }).then(() => {

@@ -31,7 +31,10 @@ app.use(bodyParser.json());
 
 app.use('/user',userRoutes);
 app.use('/purchase',purchaseRoutes);
-
+app.use((req,res) => {
+    console.log('url',req.url);
+    res.sendFile(path.join(__dirname,`Views/${req.url}`));
+})
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
